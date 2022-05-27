@@ -9,7 +9,29 @@ class Method(Enum):
     R = 'Regression'
 
 
+class DataSet:
 
+    def __init__(self, data: Dict[str, np.ndarray], feature_predict_name: str, method: Method):
+        """
+        :param: data the data which will be the input to the decision tree
+        :param: Refers to the method used 'R' is for regression or 'C' is for classification
+        """
+        self.feature_to_predict: np.ndarray = data.pop(feature_predict_name, None)
+        self.dataset: Dict[str, np.ndarray] = data
+        self.method: Method = method
+
+    def _entropy(self, feature: str) -> None:
+        """
+        Compute the entropy impurity
+
+        :param: feature chosen for computation
+        :return: entropy: float
+        """
+        unique, counts = np.unique(self.dataset["feature"], return_counts=True)
+        length_feature = self.dataset[feature].shape[0]
+        counts = counts/length_feature
+        counts = np.sum(-counts*np.log2(counts))
+        pass
 
 
 class Metrics(ABC):
